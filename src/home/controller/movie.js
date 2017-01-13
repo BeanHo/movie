@@ -7,6 +7,8 @@ import Base from './base.js';
  */
 export default class extends Base {
 
+
+    
     /**
      *  电影列表 分页
      * @param page 当前页

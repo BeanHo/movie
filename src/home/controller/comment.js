@@ -68,7 +68,14 @@ export default class extends Base {
     async querylistAction(){
 
         let movie_id = this.get("movie_id");
-        let list = await this.model("comment").where({movie_id:movie_id}).order("create_time","DESC").limit(15).select();
+        let list = await this.model("comment").where({movie_id:movie_id}).order("create_time desc").limit(15).select();
+        for(let comment of list){
+
+            if(!think.isEmpty( comment.nickname)) {
+                comment.nickname = new Buffer(comment.nickname, 'UTF-8').toString();
+                think.log(comment.nickname)
+            }
+        }
         return this.success(list);
     }
 

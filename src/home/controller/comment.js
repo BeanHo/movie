@@ -16,13 +16,15 @@ export default class extends Base {
     }
 
     async __before(){
-        let token =  this.post("token") || this.get("token");
-        let user = await this.model("user").where({token:token}).find();
-        if( think.isEmpty(user))return;
 
-        this.openid = user.openid;
-        this.nickname = new Buffer( user.nickname,'UTF-8').toString();
+        let token = this.post("token") || this.get("token");
+        let user = await this.model("user").where({token:token}).find();
+        if(think.isEmpty(user)) return;
+
+        this.openid= user.openid;
+        this.nickname = new Buffer(user.nickname ,"UTF-8").toString() ;
         this.head_img = user.head_img;
+
     }
 
     /**
@@ -36,11 +38,13 @@ export default class extends Base {
     async addAction(){
 
         let data = this.post();
-        think.log(data)
-        //查询订单是否评论过
+        think.log(data);
+
+        //查询订单是否被评论过
         let result = await this.model("comment").where({order_id:data.order_id}).find();
-        //为空，则新增评论
-        if( think.isEmpty(result) ) {
+
+        if(think.isEmpty(result)){
+
             let comment = {};
             comment.openid = this.openid;
             comment.nickname = this.nickname;
@@ -55,7 +59,11 @@ export default class extends Base {
             comment.id = insert_id;
             return this.success(comment);
         }
+
+
+
         return this.fail();
+
     }
 
 
@@ -68,14 +76,19 @@ export default class extends Base {
     async querylistAction(){
 
         let movie_id = this.get("movie_id");
+
         let list = await this.model("comment").where({movie_id:movie_id}).order("create_time desc").limit(15).select();
+
         for(let comment of list){
 
-            if(!think.isEmpty( comment.nickname)) {
-                comment.nickname = new Buffer(comment.nickname, 'UTF-8').toString();
+            if(!think.isEmpty(comment.nickname)) {
+                comment.nickname = new Buffer(comment.nickname,"UTF-8").toString();
                 think.log(comment.nickname)
+
             }
+
         }
+
         return this.success(list);
     }
 

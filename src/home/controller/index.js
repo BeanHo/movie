@@ -2,6 +2,8 @@
 
 import Base from './base.js';
 
+const rank_name = "rank";
+
 export default class extends Base {
   /**
    * index action
@@ -11,6 +13,13 @@ export default class extends Base {
     //auto render template file index_index.html
     return this.display();
   }
+
+
+
+
+
+
+
 
 
   configAction(){

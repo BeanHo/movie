@@ -20,6 +20,13 @@ export default {
                 encoding: 'utf8'
             }
         }
+    },
+
+    //排行榜rank
+    rank_redis: {
+        hosts: [
+            {port: 6379, host: '120.25.1.38'}
+        ]
     }
 
 

@@ -23,6 +23,37 @@ export default class extends think.service.base {
     }
 
 
+    /**
+     * 数据存储接口
+     * @param param
+     */
+    async save_data(param){
+
+
+        let data = {};
+        data.ip = param.ip;
+        data.city = param.city;
+        data.province = param.province;
+        data.movie_id = param.movie_id;
+
+
+        let id = await thgit is.model("data").add(data);
+
+        data.id = id;
+        return data;
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 

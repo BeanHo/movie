@@ -20,16 +20,29 @@ export default class extends Base {
   }
 
 
+
+
+
+
+
+
+
+
+
+
   /**
    * 下单接口
    * @param movie_id 电影id
    * @param cinema_id 影院id
    * @param times 场次
-   * @param openid 用户openid,从登录token中获取 TODO
+   * @param openid 用户openid,从登录token中获取
    *
    * @return 支付参数
    */
   async buyAction(){
+
+
+    await this.utils_service.processip({ip:this.http.ip(),movie_id:this.post("movie_id")})
 
     let data = this.post();
     data.openid = this.openid;
@@ -62,6 +75,10 @@ export default class extends Base {
    * @param id 订单主键
    */
   async queryAction(){
+
+
+
+
 
     let openid = this.openid;
     let id = this.get("id");

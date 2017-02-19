@@ -73,6 +73,8 @@ export default class extends think.service.base {
             //根据商户订单号查询订单,state状态为0
             let order = await this.model("movie_order").where({out_trade_no: out_trade_no, state:0}).find();
 
+
+
             if( !think.isEmpty(order) ){
 
                 //商户号匹配

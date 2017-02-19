@@ -1,9 +1,14 @@
 'use strict';
 
 import Base from './base.js';
+import request from 'request';
+
 
 const rank_name = "rank";
 const utils_service = think.service("utils","home");
+
+
+
 
 export default class extends Base {
 
@@ -17,15 +22,7 @@ export default class extends Base {
 
   async  __before(){
 
-        let data = {};
-        data.city = "广州";
-        data.province="广东";
-        data.ip = '127.0.0.1';
-        data.movie_id = "2";
 
-        let result = await this.utils_service.save_data(data)
-
-        think.log(result)
 
     }
 
@@ -33,14 +30,13 @@ export default class extends Base {
    * index action
    * @return {Promise} []
    */
-  indexAction(){
-    //auto render template file index_index.html
-    return this.success();
+  async indexAction(){
+
+
+     await this.utils_service.processip({ip:this.http.ip(),movie_id:1})
+
+      return this.success();
   }
-
-
-
-
 
 
 

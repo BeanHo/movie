@@ -23,17 +23,17 @@ const Redis = require('ioredis');
 global.redis = {};
 
 //实例化对象
-redis = new Redis(redis_config.hosts[0]);
-
-
-//监听对应的操作
-redis.on('reconnecting', ()=> {
-    think.log("[redis reconnecting]")
-});
-redis.on('connect', ()=>{
-    think.log("[redis connect]")
-});
-redis.on('error', (err)=> {
-    think.log( "[redis error]")
-    think.log(err)
-})
+//redis = new Redis(redis_config.hosts[0]);
+//
+//
+////监听对应的操作
+//redis.on('reconnecting', ()=> {
+//    think.log("[redis reconnecting]")
+//});
+//redis.on('connect', ()=>{
+//    think.log("[redis connect]")
+//});
+//redis.on('error', (err)=> {
+//    think.log( "[redis error]")
+//    think.log(err)
+//})

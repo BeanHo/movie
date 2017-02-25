@@ -24,9 +24,10 @@ export default class extends think.service.base {
 
         //think.log(this.utils_service.get_out_trade_no())
         //return null;
-        //根据影院id,电影id,场次查询价格
-        let movie =  await this.model("cinema_movie").where( {movie_id:data.movie_id, cinema_id:data.cinema_id, times:data.times} ).find();
 
+        //根据影院id,电影id,场次查询价格
+        //let movie =  await this.model("cinema_movie").where( {movie_id:data.movie_id, cinema_id:data.cinema_id, times:data.times} ).find();
+        let movie =  await this.model("cinema_movie").where( {id:data.cm_id} ).find();
         //根据openid查询用户信息
         let user = await this.model("user").where( {openid:data.openid} ).find();
 
@@ -72,7 +73,6 @@ export default class extends think.service.base {
 
             //根据商户订单号查询订单,state状态为0
             let order = await this.model("movie_order").where({out_trade_no: out_trade_no, state:0}).find();
-
 
 
             if( !think.isEmpty(order) ){

@@ -1,6 +1,8 @@
 'use strict';
 
 import Base from './base.js';
+import moment from 'moment';
+
 
 /**
  * 电影模块
@@ -64,10 +66,21 @@ export default class extends Base {
         //in查询
         let actor_list = await this.model("actor").where({id: ["IN", actor_id_arr]}).select();
 
+
+        //评论列表
+        let list = await this.model("comment").where({movie_id:movie_id}).order("create_time desc").limit(15).select();
+        for(let comment of list){
+            if(!think.isEmpty(comment.nickname)) {
+                comment.nickname = new Buffer(comment.nickname,"UTF-8").toString();
+                comment.create_time = moment(comment.create_time).format('YYYY-MM-DD HH:mm:ss')
+                think.log(comment.nickname)
+            }
+        }
+
         let result = {};
         result.movie_detail = movie_detail;
         result.actor_list = actor_list;
-
+        result.comment_list = list;
         return this.success(result);
 
     }

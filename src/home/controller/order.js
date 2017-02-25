@@ -16,14 +16,23 @@ export default class extends Base {
     super.init(...args);
     this.utils_service = new utils_service();
     this.order_service = new order_service();
-    this.openid = "";
   }
 
 
 
 
 
+  async __before(){
 
+    let token = this.post("token") || this.get("token");
+    let user = await this.model("user").where({token:token}).find();
+    if(think.isEmpty(user)) return;
+
+    this.openid= user.openid;
+    this.nickname = new Buffer(user.nickname ,"UTF-8").toString() ;
+    this.head_img = user.head_img;
+
+  }
 
 
 
@@ -158,5 +167,30 @@ export default class extends Base {
 
   }
 
+
+
+
+
+
+
+  /**
+   * 下单接口  TODO 淘宝ip地址库访问
+   * @param movie_id 电影id
+   * @param cinema_id 影院id
+   * @param times 场次
+   * @param openid 用户openid,从登录token中获取
+   *
+   * @return 支付参数
+   */
+  //async buyAction(){
+  //
+  //
+  //  await this.utils_service.processip({ip:this.http.ip(),movie_id:this.post("movie_id")})
+  //
+  //  let data = this.post();
+  //  data.openid = this.openid;
+  //  let resutlt =  await this.order_service.buy(data)
+  //  return this.success(resutlt);
+  //}
 
 }

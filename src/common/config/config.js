@@ -7,8 +7,7 @@ export default {
     //小程序相关配置，如appId等
     app:{
         appid:"wxf5dc9ad2df67d5fa",
-        secret:"0fbcdff794d1899abe4e45f852132b95",
-        openid:"o-XkY0VEjjhcY-8PQQcAobZA0Ksg"
+        secret:"0fbcdff794d1899abe4e45f852132b95"
     },
 
 

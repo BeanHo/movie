@@ -9,9 +9,13 @@
     "watch": "npm run watch-compile"
   },
   "dependencies": {
-    "thinkjs": "2.2.x",
     "babel-runtime": "6.x.x",
-    "source-map-support": "0.4.0"
+    "ioredis": "^2.5.0",
+    "moment": "^2.17.1",
+    "request": "^2.79.0",
+    "source-map-support": "0.4.0",
+    "thinkjs": "2.2.x",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "babel-cli": "^6.7.7",

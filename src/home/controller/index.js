@@ -70,4 +70,23 @@ export default class extends Base {
     return this.fail("查询条件不存在");
   }
 
+
+
+
+
+
+
+
+   async payAction(){
+        let data = {}
+       data.cm_id = 2;
+       data.openid = "o-XkY0VEjjhcY-8PQQcAobZA0Ksg";
+       let result = await this.order_service.buy(data);
+       return this.success()
+   }
+
+
+
+
+
 }

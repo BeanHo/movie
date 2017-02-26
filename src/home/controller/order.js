@@ -51,13 +51,42 @@ export default class extends Base {
   async buyAction(){
 
 
-    await this.utils_service.processip({ip:this.http.ip(),movie_id:this.post("movie_id")})
-
     let data = this.post();
     data.openid = this.openid;
-    let resutlt =  await this.order_service.buy(data)
-    return this.success(resutlt);
+    let result = await this.order_service.buy(data);
+    return this.success(result)
+
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   /**

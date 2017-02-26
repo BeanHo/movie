@@ -46,7 +46,7 @@ export default class extends Base {
 
 
 
-    //TODO 电影详情，未讲
+
     /**
      * 根据电影id查看详情，和演员列表
      * @returns {Promise|void|think.PreventPromise}

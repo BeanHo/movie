@@ -22,11 +22,8 @@ export default class extends think.service.base {
      */
     async buy(data){
 
-        //think.log(this.utils_service.get_out_trade_no())
-        //return null;
 
-        //根据影院id,电影id,场次查询价格
-        //let movie =  await this.model("cinema_movie").where( {movie_id:data.movie_id, cinema_id:data.cinema_id, times:data.times} ).find();
+        //根据影院场次id,查询电影相关信息
         let movie =  await this.model("cinema_movie").where( {id:data.cm_id} ).find();
         //根据openid查询用户信息
         let user = await this.model("user").where( {openid:data.openid} ).find();
@@ -36,7 +33,6 @@ export default class extends think.service.base {
 
         order.phone = user.phone;
         order.openid = data.openid;
-        order.out_trade_no = this.utils_service.get_out_trade_no();
         order.state = 0;
         order.create_time = moment().format('YYYY-MM-DD HH:mm:ss');
         order.total_fee = movie.price;
@@ -48,6 +44,9 @@ export default class extends think.service.base {
         order.times = movie.times;
         order.movie_title = movie.title ;
         order.movie_img = movie.img;
+        //生成商家自定义编号
+        order.out_trade_no = this.utils_service.get_out_trade_no();
+
         //保存到数据库
         let order_id = await this.model("movie_order").add(order);
 
@@ -74,15 +73,12 @@ export default class extends think.service.base {
             //根据商户订单号查询订单,state状态为0
             let order = await this.model("movie_order").where({out_trade_no: out_trade_no, state:0}).find();
 
-
             if( !think.isEmpty(order) ){
 
                 //商户号匹配
                 if( mch_id === pay.mch_id){
-
                     //生成兑换码
                     let code =  this.utils_service.get_random_num(6);
-
                     //更新订单状态
                    await this.model("movie_order").where({out_trade_no:order.out_trade_no, state:0 }).update( {state:1, code:code, notify_time:moment().format('YYYY-MM-DD HH:mm:ss') } );
                    return true;

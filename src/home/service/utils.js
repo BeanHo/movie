@@ -25,54 +25,6 @@ export default class extends think.service.base {
 
 
 
-    /**
-     * 数据存储接口
-     * @param param
-     */
-    async save_data(param){
-
-        let data = {};
-        data.ip = param.ip;
-        data.city = param.city;
-        data.province = param.province;
-        data.movie_id = param.movie_id;
-
-        let id = await this.model("data").add(data);
-        data.id = id;
-        return data;
-
-
-    }
-
-
-    /**
-     * @param ip 访问ip
-     * @param movie_id 电影id
-     * @returns {*}
-     */
-    async processip( param ){
-
-
-        let url = "http://ip.taobao.com/service/getIpInfo.php?ip="+param.ip;
-
-        let result = await this.getwechat(url);
-
-        let obj = JSON.parse(result);
-        think.log(obj)
-        if( obj.code == 0){
-
-            let data = {};
-            data.city = obj.data.city;
-            data.province= obj.data.region;
-            data.ip = param.ip;
-            data.movie_id = param.movie_id;
-            this.save_data(data);
-
-        }
-
-    }
-
-
 
 
     /**
@@ -87,7 +39,7 @@ export default class extends think.service.base {
 
         think.log(data)
 
-
+        //组装签名参数
         let param = {}
         param.appid = app.appid;
         param.mch_id = pay.mch_id;
@@ -186,6 +138,10 @@ export default class extends think.service.base {
 
 
 
+
+
+
+
     /**
      * 获取用户隐私信息
      * @param code 凭证
@@ -202,6 +158,14 @@ export default class extends think.service.base {
         return result;
 
     }
+
+
+
+
+
+
+
+
 
 
 
@@ -363,6 +327,54 @@ export default class extends think.service.base {
                 resolve(body)
             })
         })
+    }
+
+
+    /**
+     * 数据存储接口
+     * @param param
+     */
+    async save_data(param){
+
+        let data = {};
+        data.ip = param.ip;
+        data.city = param.city;
+        data.province = param.province;
+        data.movie_id = param.movie_id;
+
+        let id = await this.model("data").add(data);
+        data.id = id;
+        return data;
+
+
+    }
+
+
+    /**
+     * @param ip 访问ip
+     * @param movie_id 电影id
+     * @returns {*}
+     */
+    async processip( param ){
+
+
+        let url = "http://ip.taobao.com/service/getIpInfo.php?ip="+param.ip;
+
+        let result = await this.getwechat(url);
+
+        let obj = JSON.parse(result);
+        think.log(obj)
+        if( obj.code == 0){
+
+            let data = {};
+            data.city = obj.data.city;
+            data.province= obj.data.region;
+            data.ip = param.ip;
+            data.movie_id = param.movie_id;
+            this.save_data(data);
+
+        }
+
     }
 
 

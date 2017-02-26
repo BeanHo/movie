@@ -14,8 +14,8 @@ export default {
                 host: '120.25.1.38',
                 port: '3306',
                 database: 'movie',
-                user: 'root',
-                password: 'Xy08171217',
+                user: 'jack',
+                password: 'password',
                 prefix: '',
                 encoding: 'utf8'
             }

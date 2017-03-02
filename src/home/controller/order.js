@@ -64,48 +64,42 @@ export default class extends Base {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   /**
    * 已支付订单列表
    * @param page
    * @param page_size
    */
-  async listAction(page=0,page_size=10){
+  async listAction( page=1, page_size=10 ){
 
     let openid = this.openid;
-    let sqlResult = await this.model("movie_order").where({openid:openid,state:{ ">=" :1}}).page((page-1)*page_size,page_size).order("create_time DESC").countSelect();
-    //返回数据格式化
-    let final_result = {};
+
+    let sqlResult = await this.model("movie_order").where( {openid:openid, state:{">=":1}}).page((page-1)*page_size,page_size).countSelect();
+
+    //格式化数据
+
+    let final_result = {}
     final_result.total = sqlResult.count;
     final_result.page = sqlResult.currentPage;
     final_result.pageSize = sqlResult.numsPerPage;
-    final_result.pageData =  sqlResult.data;
+    final_result.pageData = sqlResult.data;
+
     return this.success(final_result);
+
+
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   /**
@@ -113,9 +107,6 @@ export default class extends Base {
    * @param id 订单主键
    */
   async queryAction(){
-
-
-
 
 
     let openid = this.openid;

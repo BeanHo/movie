@@ -73,7 +73,7 @@ export default class extends Base {
 
     let openid = this.openid;
 
-    let sqlResult = await this.model("movie_order").where( {openid:openid, state:{">=":1}}).page((page-1)*page_size,page_size).countSelect();
+    let sqlResult = await this.model("movie_order").where( {openid:openid, state:{">=":1}}).order("create_time desc").page((page-1)*page_size,page_size).countSelect();
 
     //格式化数据
 

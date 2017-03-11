@@ -1,6 +1,7 @@
 'use strict';
 import moment from 'moment';
 const utils_service = think.service("utils","home");
+const rank_service = think.service("rank","home");
 
 //支付相关配置
 const pay = think.config('pay')
@@ -13,6 +14,7 @@ export default class extends think.service.base {
     init(...args){
         super.init(...args);
         this.utils_service = new utils_service();
+        this.rank_service = new rank_service();
 
     }
 
@@ -25,9 +27,11 @@ export default class extends think.service.base {
 
         //根据影院场次id,查询电影相关信息
         let movie =  await this.model("cinema_movie").where( {id:data.cm_id} ).find();
+
+        let movie_detail = await this.model("movie").where({id:movie.movie_id}).find();
         //根据openid查询用户信息
         let user = await this.model("user").where( {openid:data.openid} ).find();
-
+        console.info(movie_detail)
         //生成订单，补全数据，存储数据库
         let order  = {};
 
@@ -42,8 +46,8 @@ export default class extends think.service.base {
         order.cinema_id = movie.cinema_id;
         order.movie_id = movie.movie_id;
         order.times = movie.times;
-        order.movie_title = movie.title ;
-        order.movie_img = movie.img;
+        order.movie_title = movie_detail.title ;
+        order.movie_img = movie_detail.img;
         //生成商家自定义编号
         order.out_trade_no = this.utils_service.get_out_trade_no();
 
@@ -79,6 +83,12 @@ export default class extends think.service.base {
                 if( mch_id === pay.mch_id){
                     //生成兑换码
                     let code =  this.utils_service.get_random_num(6);
+
+                    //放入redis缓存，用于热门电影
+                    await this.rank_service.save_to_rank(order.movie_id)
+
+
+
                     //更新订单状态
                    await this.model("movie_order").where({out_trade_no:order.out_trade_no, state:0 }).update( {state:1, code:code, notify_time:moment().format('YYYY-MM-DD HH:mm:ss') } );
                    return true;

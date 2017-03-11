@@ -3,7 +3,8 @@
 import Base from './base.js';
 import xml2js from 'xml2js';
 const order_service = think.service("order","home");
-
+//TODO 引进类
+const rank_service = think.service("rank","home");
 /**
  * 微信回调模块
  */
@@ -36,8 +37,6 @@ export default class extends Base {
       //打印支付回调结果
       think.log(pay_result);
 
-       //放入redis缓存，用于热门电影
-       //TODO
 
 
 
